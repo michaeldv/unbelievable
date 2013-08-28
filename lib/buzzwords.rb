@@ -23,16 +23,16 @@ integrated repurposed syndicated synergized transformed visualized facilitated p
 transitioned)
 
 PLURALS = %w(UIs bugs hubs slots specs users models niches actions markets metrics portals schemas systems
-channels eyeballs networks services pageviews paradigms platforms solutions synergies appliances
+channels eyeballs networks services pageviews! paradigms platforms solutions synergies appliances
 interfaces)
 
 SINGULARS = %w(GUI bug hub core spec user array focus frame group model access engine matrix policy portal
-system ability adapter archive circuit concept loyalty network pricing process product project support synergy
+system ability! adapter archive circuit concept loyalty network pricing process product project support synergy
 toolset website Internet Intranet alliance analyzer approach business capacity commerce customer database
-encoding extranet firmware forecast function hardware helpdesk paradigm protocol software solution strategy
-algorithm bandwidth benchmark challenge emulation framework groupware hierarchy interface knowledge migration
-moderator readiness structure taskforce timeframe workforce capability complexity encryption enterprise
-initiative management middleware monitoring moratorium projection throughput mindshare console)
+encoding extranet firmware forecast! function hardware helpdesk paradigm protocol software! solution strategy
+algorithm bandwidth! benchmark challenge! emulation framework groupware hierarchy interface knowledge migration
+moderator readiness structure taskforce timeframe workforce capability complexity! encryption! enterprise
+initiative management middleware monitoring moratorium projection throughput! mindshare! console)
 
 ADJECTIVES = %w(B2B B2C rich sexy local smart viral global killer phased robust secure backend diverse
 dynamic focused leading organic virtual advanced balanced critical enhanced expanded extended frontend granular
@@ -61,25 +61,33 @@ Victoria Alexander Alexandra Annabelle Charlotte Christian Elizabeth Gabriella K
 Sebastian)
 
 CONJUNCTIONS = %w(and with)
-INTRO = %w(our their many)
+INTRO = %w(our their many only)
 PEOPLE = %w(engineers managers marketers executives students analysts bloggers investors interns)
-NUMERALS = %w(many some several two three four five six seven eight nine ten eleven twelve thirteen seventeen thirteenth eighteenth)
+NUMERALS = %w(our their only many some several two three four five six seven eight nine ten eleven twelve thirteen seventeen thirteenth eighteenth)
 
 QUESTIONS = {
   "Has anyone figured why" => [ 3, 6, 7, 3 ],
-  "Does anybody know how"  => [ 4, 7, 4, 3 ],
-  "Who knows how"          => [ 3, 5, 3 ],
-  "Are you aware"          => [ 3, 3, 5 ],
+  "Does anybody know why"  => [ 4, 7, 4, 3 ],
+  "Not sure why"           => [ 3, 4, 3 ],
   "Why the heck"           => [ 3, 3, 4 ],
-  "How exactly"            => [ 3, 7 ],
-  "How come"               => [ 3, 4 ],
   "Why"                    => [ 3 ]
 }
+
+OK = %w(OK?)
 
 conjunction = lambda { |words| CONJUNCTIONS.map(&:size).include?(words[1]) }
 people = lambda { |words| INTRO.map(&:size).include?(words[0]) && PEOPLE.map(&:size).include?(words[1]) }
 action = lambda { |words| ACTIONS.map(&:size).uniq.include?(words[1]) }
 TEMPLATES = [
+  { vars: [ :ok ], only: lambda { |words| words[0] == 3 } },
+  { vars: [ :verbs, :plurals ] },
+  { vars: [ :numerals, :plurals ] },
+  { vars: [ :verbs, :adjectives, :plurals ] },
+  { vars: [ :numerals, :adjectives, :plurals ] },
+  { vars: [ :verbs, :adjectives, :adjectives, :plurals ] },
+  { vars: [ :numerals, :adjectives, :adjectives, :plurals ] },
+  { vars: [ :verbs, :numerals, :adjectives, :adjectives, :plurals ] },
+
   { vars: [ :names, :actions, :adjectives, :singulars ], only: action },
   { vars: [ :names, :actions, :adjectives, :plurals ], only: action },
 # { vars: [ :names, :adverbs, :actions, :adjectives, :singulars ], only: action },
@@ -100,6 +108,7 @@ TEMPLATES = [
 ]
 
 def question(*words)
+  return {} if words.size < 6
   etalon = words.join
   Hash[*QUESTIONS.find { |_,v| etalon.start_with?(v.join) }]
 end
@@ -113,35 +122,63 @@ def sentence(*words)
 
   sentences = templates.map do |template|
     str = template[:vars].map { |var| Kernel.const_get(var.to_s.upcase).sample }.join(" ")
-    str = "#{q.keys[0]} #{str}" if q.any?
+    str = "#{q.keys[0]} #{str}?" if q.any? # TODO: extra ? char
+    str = str[0].capitalize + str[1..-1]
+    str += "." unless str =~ /[\.\?!]$/
     str
   end
 
   sentences.sort_by(&:size).first
 end
 
+def paragraph(*words)
+  sentences = []
+  loop do
+    # attempts = [6,6,6,6,5,5,5,4,4,3,2,1].shuffle.map do |n|
+    attempts = [7,6,5,4].map do |n|
+      found = sentence(*words[0,n])
+      words.shift(found.split.size) if found
+      found
+    end.compact
+    break if attempts.empty?
+    sentences += attempts
+  end
+  sentences.last.sub!(/\.$/, "")
+  puts sentences.join(" ") + "\n\n---"
+  col = 0
+  sentences.each_with_index do |s, i|
+    if (i+1) % 3 == 0
+      s.sub!(/\.$/, "")
+    end
 
-# def sentence(*words)
-#   
-#   if (words[1] == 3 || words[1] == 4) && (words.size == 6 || words.size == 7)
-#     template = TEMPLATES.select { |t| t[:vars].size == words.size - 2 }.sample
-#     format = NAMES.sample + " " + JOIN.find{ |x| x.size == words[1] } + " " + template[:format] + " "
-#     format.gsub!("%ss", "%s")
-#     sprintf(format, *template[:vars].map { |var| Kernel.const_get(var.to_s.upcase).sample })
-#   else
-#     template = TEMPLATES.select { |t| t[:vars].size == words.size }.sample
-#     sprintf(template[:format], *template[:vars].map { |var| Kernel.const_get(var.to_s.upcase).sample })
-#   end
-# end
+    s.split.each do |w|
+      if col > 35 || w.end_with?(".")
+        print "\n"
+        col = 0
+      end
+      print "#{w} "
+      col += w.size + 1
+    end
 
-10.times do
-  puts sentence(5,6,7,8)
-  puts sentence(5,6,7,8,9)
-  puts sentence(5,3,5,6,7,8)
-  puts sentence(5,4,5,6,7,8,9)
-  puts sentence(3,8,5,6,7,8)
-  puts sentence(3,4,3,8,5,6,7,8)
+    if (i+1) % 3 == 0
+      print "\n\n"
+      col = 0
+    end
+  end
+
+  puts; puts; puts words.inspect
 end
+
+paragraph(4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5)
+
+# 10.times do
+#   puts sentence(5,6,7,8)
+#   puts sentence(5,6,7,8,9)
+#   puts sentence(5,3,5,6,7,8)
+#   puts sentence(5,4,5,6,7,8,9)
+#   puts sentence(3,8,5,6,7,8)
+#   puts sentence(3,4,3,8,5,6,7,8)
+# end
 
 # 5.times { puts "#{names.sample} #{verbs.sample}s #{adjectives.sample} #{singulars.sample}" }
 # puts '---'

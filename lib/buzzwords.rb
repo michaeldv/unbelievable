@@ -143,30 +143,28 @@ def paragraph(*words)
     break if attempts.empty?
     sentences += attempts
   end
-  sentences.last.sub!(/\.$/, "")
-  puts sentences.join(" ") + "\n\n---"
-  col = 0
-  sentences.each_with_index do |s, i|
-    if (i+1) % 3 == 0
-      s.sub!(/\.$/, "")
-    end
 
-    s.split.each do |w|
-      if col > 35 || w.end_with?(".")
-        print "\n"
-        col = 0
-      end
-      print "#{w} "
-      col += w.size + 1
-    end
-
-    if (i+1) % 3 == 0
-      print "\n\n"
-      col = 0
-    end
+  poem = each_haiku(sentences) do |haiku|
+    reformat(haiku)
   end
+  puts poem
 
   puts; puts; puts words.inspect
+end
+
+def each_haiku(sentences)
+  sentences.each_slice(3).map do |slice|
+    yield slice.join(" ").sub(/\.\s*$/, "") # No trailing period.
+  end
+end
+
+def reformat(haiku)
+  with_breaks = haiku.split.slice_before(/\.$/).map do |slice|
+    slice[5] = "\n#{slice[5]}" if slice.size > 6
+    slice[0] = "\n#{slice[0]}" if slice[0].end_with?(".")
+    slice
+  end
+  with_breaks.join(" ") << "\n\n"
 end
 
 paragraph(4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5)

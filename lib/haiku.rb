@@ -3,23 +3,26 @@ require "./core_ext/array"
 class Haiku
   DICTIONARY = {
     singular: %w(you her him sea sky ice tea air sun dove seed bell rock wave face
-    sand snow tree hand wind lake skin fire monk moon life rain light heart apple
-    color river frost leave stone night creek smoke sword blood grass world amber
-    cloud pebble temple flower shadow breeze scroll summer bamboo candle spring
-    canyon mirror meadow someone journey evening whisper origami morning rainbow
-    diamond crescent nighfall sunshine wildness mountain waterfall butterfly
-    moonlight breadcrumb marionette wheelhouse ),
+    leaf sand snow tree hand wind lake skin fire monk moon life rain light heart
+    apple petal puppy smile color river frost leave stone night creek smoke sword
+    blood grass world amber cloud pebble temple flower shadow breeze scroll summer
+    bamboo kitten candle spring canyon mirror meadow someone whisper journey
+    evening whisper origami morning rainbow diamond crescent nighfall sunshine
+    wildness mountain waterfall butterfly moonlight breadcrumb marionette
+    wheelhouse),
 
-    plural: %w(lips eyes monks birds rocks seeds wings ideas faces waves bells hands
-    monks trees clouds petals stones leaves apples pebbles dreams hearts wounds
-    colors meadow mirrors candles flowers shadows breaths temples gardens diamonds
-    blankets droplets whispers birthdays mountains waterfalls scarecrows jellybeans),
+    plural: %w(lips eyes monks birds rocks seeds wings ideas faces waves bells
+    hands monks trees clouds petals stones leaves apples pebbles dreams hearts
+    petals wounds colors meadow mirrors candles flowers whispers shadows breaths
+    temples gardens diamonds blankets droplets whispers birthdays mountains
+    waterfalls scarecrows jellybeans),
 
-    adjective: %w(new hot old bare aged pure soft wild warm tiny sharp clear white
-    fresh quiet sweet crisp sleepy tender lovely smooth simple fallen pretty gentle
-    bright silent perfect lonely crystal awesome amazing restful handsome gracious
-    peaceful elegant secluded merciful nameless stunning tranquil marvelous
-    beautiful startling wonderful refreshing delightful weightless),
+    adjective: %w(new hot old cold fine bare aged pure soft wild warm tiny sharp
+    clear white fresh quiet sweet crisp sleepy tender lovely joyful smooth simple
+    fallen pretty gentle bright silent perfect lonely crystal unusual awesome
+    amazing sacred fading restful handsome gracious peaceful elegant secluded
+    merciful nameless stunning painful soaring tranquil marvelous beautiful
+    startling wonderful refreshing delightful weightless),
 
     numeral: %w(many two three four five six seven eight nine ten eleven twelve
     sixteen hundreds thirteen thousands seventeen thirteenth eighteenth),

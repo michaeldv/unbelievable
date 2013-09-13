@@ -40,7 +40,7 @@ class Buzzwords
     compatible compelling customized extensible horizontal innovative integrated
     persistent standalone successful switchable synergized ubiquitous upgradable),
 
-    adverb: %w(oh! yt? plz OMG ASAP only nvm! ooh! more? done? ASAP! FAST! yeah!
+    adverb: %w(oh! yt? plz OMG ASAP only nvm! ooh! more? done? FAST fast! yeah!
     damn! simply further please quickly quietly rapidly swiftly promptly urgently
     carefully discreetly diligently),
 

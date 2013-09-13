@@ -19,7 +19,7 @@ def method_missing(name, *args)
 end
 
 def Object.const_missing(name)
-  send(name.to_s.downcase.to_sym)
+  send(name.downcase)
 end
 
 at_exit do

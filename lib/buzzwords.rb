@@ -2,50 +2,51 @@ require "./core_ext/array"
 
 class Buzzwords
   DICTIONARY = {
-    verb: %w(dig zap fix log use rate book grow hack push sack swap fake sell check
-    study gauge build create draft drive morph order scale deploy enable engage
-    verify evolve extend manage design target retain deliver embrace empower
-    enhance exploit monitor develop approve rebrand utilize automate expedite
-    generate incubate leverage maximize monetize optimize redefine reinvent
-    aggregate architect benchmark cultivate implement integrate repurpose syndicate
-    synergize jumpstart transform facilitate prioritize productize streamline
-    synthesize transition),
+    verb: %w(buy dig zap fix log use win rate book grow hack push sack swap fake
+    sell check study gauge build create draft drive morph order scale deploy
+    enable engage verify evolve extend manage design target retain deliver embrace
+    empower enhance exploit monitor develop approve rebrand utilize automate
+    expedite generate incubate leverage maximize monetize optimize redesign
+    reinvent aggregate architect benchmark cultivate implement integrate repurpose
+    syndicate synergize jumpstart transform facilitate prioritize productize
+    streamline synthesize transition),
 
-    plural: %w(ads UIs GUIs hubs slots specs brands users models niches stocks
-    actions markets metrics portals schemas systems designs drivers channels
-    eyeballs! networks interns services pageviews! analytics paradigms platforms
+    plural: %w(ads UIs GUIs fabs hubs labs slots specs brands users models niches
+    stocks actions markets metrics portals schemas systems designs drivers
+    channels eyeballs! networks services pageviews! analytics paradigms platforms
     customers solutions synergies appliances interfaces milestones),
 
-    singular: %w(GUI LTE XML hub HTML JSON LDAP SaaS beta blog core spec HTML5
-    brand focus frame group model access mashup engine matrix! policy portal system
-    webinar ability! adapter archive circuit concept! loyalty network pricing!
-    process product project! support synergy toolset website Internet Intranet
-    alliance analyzer approach business capacity commerce customer database
-    encoding! extranet firmware! forecast! function hardware helpdesk workflow
-    paradigm protocol software! solution strategy algorithm bandwidth! benchmark
-    diversity challenge! emulation framework groupware hierarchy interface
-    knowledge migration moderator readiness structure taskforce timeframe workforce
-    capability complexity encryption enterprise initiative management middleware
-    monitoring moratorium projection throughput mindshare! console),
+    singular: %w(GUI LTE XML fab hub lab HTML JSON LDAP SaaS beta blog core spec
+    HTML5 brand focus frame group model access mashup engine matrix! policy portal
+    system webinar ability! adapter archive circuit concept! loyalty network
+    pricing! process product project! support synergy toolset website Internet
+    Intranet alliance analyzer approach business capacity commerce customer
+    database encoding! extranet firmware! forecast! function hardware helpdesk
+    workflow paradigm protocol software! solution strategy algorithm bandwidth!
+    benchmark diversity challenge! emulation framework groupware hierarchy
+    interface knowledge migration moderator readiness structure taskforce
+    timeframe workforce capability complexity encryption enterprise initiative
+    management middleware monitoring moratorium projection throughput mindshare!
+    console),
 
-    adjective: %w(new hot full open meme local solid smart viral global killer
+    adjective: %w(raw hot full bold meme local solid smart viral global killer
     static robust secure modern mobile backend foreign diverse dynamic focused
     leading offshore organic virtual advanced balanced critical enhanced expanded
     extended frontend granular european holistic holistic magnetic optional
     profound reactive realtime scalable seamless shareable vertical wireless
-    automated budgetary digitized downsized countless efficient ergonomic exclusive
-    impactful intuitive mandatory networked optimized polarised proactive strategic
-    universal versatile visionary worldwide artificial compatible compelling
-    customized extensible horizontal innovative integrated persistent standalone
-    successful switchable synergized ubiquitous upgradable),
+    automated budgetary digitized downsized countless efficient ergonomic
+    exclusive impactful intuitive mandatory networked optimized polarised
+    proactive strategic universal versatile visionary worldwide artificial
+    compatible compelling customized extensible horizontal innovative integrated
+    persistent standalone successful switchable synergized ubiquitous upgradable),
 
-    adverb: %w(oh! yt? plz OMG ASAP also only nvm; more? done? ASAP! FAST! yeah.
+    adverb: %w(oh! yt? plz OMG ASAP only nvm! ooh! more? done? ASAP! FAST! yeah!
     damn! simply further please quickly quietly rapidly swiftly promptly urgently
     carefully discreetly diligently),
 
-    numeral: %w(our their many some several few two three four five six seven eight
-    nine ten eleven twelve hundred sixteen thousand thirteen seventeen thousands
-    thirteenth eighteenth)
+    numeral: %w(our their many some several all any few two three four five six
+    seven eight nine ten eleven twelve hundred sixteen thousand thirteen seventeen
+    thousands thirteenth eighteenth)
   }
 
   TEMPLATES = [
@@ -65,12 +66,10 @@ class Buzzwords
     { vars: [ :adverb, :verb, :adjective, :plural ] },
     { vars: [ :adverb, :verb, :adjective, :singular ] },
     { vars: [ :adverb, :verb, :numeral, :plural ] },
-    { vars: [ :verb, :adjective, :adjective, :plural ] },
     { vars: [ :verb, :numeral, :adjective, :plural ] },
 
     # Sentences with 5 words.
-    { vars: [ :adverb, :verb, :numeral, :adjective, :plural ] },
-    { vars: [ :verb, :numeral, :adjective, :adjective, :plural ] }
+    { vars: [ :adverb, :verb, :numeral, :adjective, :plural ] }
   ]
 
   def sentence(*words)

@@ -31,16 +31,23 @@ at_exit do
   eval $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
 end
 
-ooh! benchmark ten meme customers;
-redefine many impactful drivers;
-nvm! transform modern fab;
-quickly win all virtual specs;
-only fake raw GUIs;
-quickly expedite five critical schemas;
-swap thirteen foreign GUIs;
-urgently productize our leading UIs;
-nvm! implement synergized beta;
-urgently facilitate nine optimized specs;
-ooh! reinvent sixteen bold designs;
-further dig hundred labs;
-fix backend specs;
+Like marvelous sun over
+beautiful nameless sea? Marvelous
+whisper with beautiful
+bamboo. Hot crystal ans
+
+Raw evening along soft warm
+sun. Five soaring stunning
+eyes. Gracious unusual eyes
+
+Remember sixteen pure gracious
+birthdays? Six crystal raw
+lips. Wonderful wheelhouse over
+peaceful refreshing snow
+
+Wonderful crisp
+lips. Tranquil retreat with
+awesome unusual
+him. Sixteen aged hot mirrors
+
+Peace

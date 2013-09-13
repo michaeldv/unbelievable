@@ -2,35 +2,37 @@ require "./core_ext/array"
 
 class Haiku
   DICTIONARY = {
-    singular: %w(you her him sea sky ice tea air sun dove seed bell rock wave face
-    leaf sand snow tree hand wind lake skin fire monk moon life rain light heart
-    apple petal puppy smile color river frost leave stone night creek smoke sword
-    blood grass world amber cloud pebble temple flower shadow breeze scroll summer
-    bamboo kitten candle spring canyon mirror meadow someone whisper journey
-    evening whisper origami morning rainbow diamond crescent nighfall sunshine
-    wildness mountain waterfall butterfly moonlight breadcrumb marionette
-    wheelhouse),
 
-    plural: %w(lips eyes monks birds rocks seeds wings ideas faces waves bells
-    hands monks trees clouds petals stones leaves apples pebbles dreams hearts
-    petals wounds colors meadow mirrors candles flowers whispers shadows breaths
-    temples gardens diamonds blankets droplets whispers birthdays mountains
-    waterfalls scarecrows jellybeans),
+    singular: %w(you her him sea sky ice tea air sun dove seed bell rock wave
+    face cave leaf sand snow tree hand wind lake skin fire monk moon life rain
+    light heart apple petal puppy smile color river frost leave stone night creek
+    smoke sword blood grass world amber cloud pebble temple flower shadow breeze
+    scroll summer bamboo kitten candle spring canyon mirror meadow someone
+    whisper journey retreat evening whisper origami morning rainbow diamond
+    crescent nighfall sunshine wildness mountain waterfall butterfly moonlight
+    breadcrumb marionette wheelhouse),
 
-    adjective: %w(new hot old cold fine bare aged pure soft wild warm tiny sharp
+    plural: %w(ova ans lips eyes monks birds rocks seeds wings ideas faces waves
+    bells hands monks trees clouds petals stones leaves apples pebbles dreams
+    hearts petals wounds colors meadows mirrors candles flowers whispers shadows
+    breaths temples gardens diamonds blankets droplets whispers birthdays
+    mountains waterfalls scarecrows jellybeans),
+
+    adjective: %w(raw hot old cold fine bare aged pure soft wild warm tiny sharp
     clear white fresh quiet sweet crisp sleepy tender lovely joyful smooth simple
     fallen pretty gentle bright silent perfect lonely crystal unusual awesome
     amazing sacred fading restful handsome gracious peaceful elegant secluded
     merciful nameless stunning painful soaring tranquil marvelous beautiful
     startling wonderful refreshing delightful weightless),
 
-    numeral: %w(many two three four five six seven eight nine ten eleven twelve
-    sixteen hundreds thirteen thousands seventeen thirteenth eighteenth),
+    numeral: %w(two many some three four five six seven eight nine ten eleven
+    twelve sixteen hundreds thirteen thousands seventeen thirteenth eighteenth),
 
-    single: %w(Yes Yum Wow Yeah Aha! Agh! Yay! Oops Peace Awesome Awesome! Really?
-    Amazing Amazing! Beautiful Beautiful! Wonderful Wonderful!),
+    single: %w(Yes Yum Wow Aha Agh Yay Yeah Oops Peace Enjoy Really Awesome
+    Amazing Beautiful Wonderful Standstill),
 
-    conjunction: %w(and and and with with with among above over besides)
+    conjunction: %w(yet with with near over along among above around besides
+    without whenever wherever although therefore underneath)
   }
 
   QUESTIONS = {
@@ -38,6 +40,7 @@ class Haiku
     "Have you seen"    => [ 4, 3, 4 ],
     "Not enjoying"     => [ 3, 8 ],
     "Forgot about"     => [ 6, 5 ],
+    "Dream about"      => [ 5, 5 ],
     "Remember"         => [ 8 ],
     "Cherish"          => [ 7 ],
     "Recall"           => [ 6 ],
@@ -49,53 +52,18 @@ class Haiku
     "See"              => [ 3 ]
   }
 
-  CONJUNCTION = lambda { |words| DICTIONARY[:conjunction].map(&:size).uniq.include? words[2] }
-  PLURAL2 = lambda { |words| words.size == 2 && words[1] > 3 }
-  PLURAL3 = lambda { |words| words.size == 3 && words[2] > 3 }
-
   TEMPLATES = [
-    { vars: [ :single ] },
-    { vars: [ :single, :single ] },
-    { vars: [ :numeral, :plural ], when: PLURAL2 },
-    { vars: [ :adjective, :plural ], when: PLURAL2 },
-    { vars: [ :adjective, :singular ] },
-
-    { vars: [ :adjective, :adjective, :plural ], when: PLURAL3 },
-    { vars: [ :adjective, :adjective, :singular ] },
-    { vars: [ :numeral, :adjective, :plural ], when: PLURAL3 },
-
-    { vars: [ :adjective, :singular, :conjunction, :singular ], when: CONJUNCTION },
-
-    { vars: [ :adjective, :singular, :conjunction, :adjective, :singular ], when: CONJUNCTION },
-
-    { vars: [ :adjective, :singular, :conjunction, :adjective, :adjective, :singular ], when: CONJUNCTION }
+    [ :single                                                                 ],
+    [ :numeral,   :plural                                                     ],
+    [ :adjective, :plural                                                     ],
+    [ :adjective, :singular                                                   ],
+    [ :adjective, :adjective, :plural                                         ],
+    [ :adjective, :adjective, :singular                                       ],
+    [ :numeral,   :adjective, :plural                                         ],
+    [ :numeral,   :adjective, :adjective,   :plural                           ],
+    [ :adjective, :singular,  :conjunction, :adjective, :singular             ],
+    [ :adjective, :singular,  :conjunction, :adjective, :adjective, :singular ]
   ]
-
-  def question(*words)
-    return {} if words.size < 5
-    etalon = words.join
-    Hash[*QUESTIONS.select { |_,v| etalon.start_with?(v.join) }.to_a.sample ]
-  end
-
-  def sentence(*words)
-    q = question(*words)
-    templates = TEMPLATES.select do |t|
-      ok = t[:when] ? t[:when].call(words) : true
-      ok && t[:vars].size == words.size - q.values.size
-    end
-    return nil if templates.empty?
-
-    sentences = templates.map do |template|
-      vars = words.dup
-      formatted = template[:vars].map { |var| DICTIONARY[var].pick(vars.shift) }.join(" ")
-      formatted = "#{q.keys[0]} #{formatted}?" if q.any? # TODO: extra ? char
-      formatted += "." unless formatted =~ /[\.\?!]$/
-      formatted.capitalize
-    end
-
-    # sentences.sort_by(&:size).first # Pick the longest sentence.
-    sentences.sample
-  end
 
   def paragraph(*words)
     sentences = []
@@ -111,6 +79,45 @@ class Haiku
     each_haiku(sentences) do |haiku|
       reformat(haiku)
     end
+  end
+
+  private
+
+  def pick_question(words)
+    return {} if words.size < 5 || words[-1] < 4
+
+    list = words.join
+    Hash[*QUESTIONS.select { |_,v| list.start_with?(v.join) }.to_a.sample ]
+  end
+
+  def select_templates(words, size = 0)
+    limit = words.size - size
+    TEMPLATES.select { |template| template.size == limit }
+  end
+
+  def sentence(*words)
+    question = pick_question(words)
+    templates = select_templates(words, question.any? ? question.values.first.size : 0)
+
+    sentences = templates.map do |template|
+      vars, terms = words.dup, []
+
+      if question.any?
+        next if template.size != vars.size - question.values.first.size
+        terms = question.keys.first.split # Start with question words.
+        vars.shift(terms.size)            # Reduce variables since we've added some words already.
+        vars[-1] -= 1                     # Make the last word shorter since we're appending "?".
+      end
+
+      terms.concat template.map { |var| DICTIONARY[var].pick(vars.shift) }
+      formatted = terms.join(" ")
+      formatted << "?" if question.any?
+      formatted << "." unless formatted =~ /[\.\?!]$/
+      formatted.capitalize
+    end.compact
+
+    sentences.sort_by(&:size).first # Pick the longest sentence.
+    # sentences.sample
   end
 
   def each_haiku(sentences)

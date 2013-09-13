@@ -50,36 +50,28 @@ class Buzzwords
   }
 
   TEMPLATES = [
-    # Sentences with 1 or 2 words.
-    { vars: [ :verb ] },
-    { vars: [ :verb, :plural ] },
-    { vars: [ :verb, :singular ] },
-
-    # Sentences with 3 words.
-    { vars: [ :adverb, :verb, :plural ] },
-    { vars: [ :adverb, :verb, :singular ] },
-    { vars: [ :verb, :numeral, :plural ] },
-    { vars: [ :verb, :adjective, :plural ] },
-    { vars: [ :verb, :adjective, :singular ] },
-
-    # Sentences with 4 words.
-    { vars: [ :adverb, :verb, :adjective, :plural ] },
-    { vars: [ :adverb, :verb, :adjective, :singular ] },
-    { vars: [ :adverb, :verb, :numeral, :plural ] },
-    { vars: [ :verb, :numeral, :adjective, :plural ] },
-
-    # Sentences with 5 words.
-    { vars: [ :adverb, :verb, :numeral, :adjective, :plural ] }
+    [ :verb                                                ],
+    [ :verb,   :plural                                     ],
+    [ :verb,   :singular                                   ],
+    [ :adverb, :verb,      :plural                         ],
+    [ :adverb, :verb,      :singular                       ],
+    [ :verb,   :numeral,   :plural                         ],
+    [ :verb,   :adjective, :plural                         ],
+    [ :verb,   :adjective, :singular                       ],
+    [ :adverb, :verb,      :adjective, :plural             ],
+    [ :adverb, :verb,      :adjective, :singular           ],
+    [ :adverb, :verb,      :numeral,   :plural             ],
+    [ :verb,   :numeral,   :adjective, :plural             ],
+    [ :adverb, :verb,      :numeral,   :adjective, :plural ]
   ]
 
   def sentence(*words)
     # Pick templates with given number of words.
-    templates = TEMPLATES.select { |template| template[:vars].size == words.size }
-    return nil if templates.empty?
+    templates = TEMPLATES.select { |template| template.size == words.size }
 
     sentences = templates.map do |template|
       vars = words.dup
-      formatted = template[:vars].map { |var| DICTIONARY[var].pick(vars.shift) }.join(" ")
+      formatted = template.map { |var| DICTIONARY[var].pick(vars.shift) }.join(" ")
       formatted << ";" unless formatted.end_with?("!")
       formatted
     end

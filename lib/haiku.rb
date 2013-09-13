@@ -2,7 +2,6 @@ require "./core_ext/array"
 
 class Haiku
   DICTIONARY = {
-
     singular: %w(you her him sea sky ice tea air sun dove seed bell rock wave
     face cave leaf sand snow tree hand wind lake skin fire monk moon life rain
     light heart apple petal puppy smile color river frost leave stone night creek
@@ -18,12 +17,12 @@ class Haiku
     breaths temples gardens diamonds blankets droplets whispers birthdays
     mountains waterfalls scarecrows jellybeans),
 
-    adjective: %w(raw hot old cold fine bare aged pure soft wild warm tiny sharp
-    clear white fresh quiet sweet crisp sleepy tender lovely joyful smooth simple
-    fallen pretty gentle bright silent perfect lonely crystal unusual awesome
-    amazing sacred fading restful handsome gracious peaceful elegant secluded
-    merciful nameless stunning painful soaring tranquil marvelous beautiful
-    startling wonderful refreshing delightful weightless),
+    adjective: %w(raw hot old wet cold fine bare aged pure soft wild warm tiny
+    sharp clear white fresh quiet sweet crisp sleepy tender lovely joyful smooth
+    simple fallen pretty gentle bright silent perfect lonely crystal unusual
+    awesome amazing sacred fading restful handsome gracious peaceful elegant
+    secluded merciful nameless stunning painful soaring tranquil marvelous
+    beautiful startling wonderful refreshing delightful weightless),
 
     numeral: %w(two many some three four five six seven eight nine ten eleven
     twelve sixteen hundreds thirteen thousands seventeen thirteenth eighteenth),

@@ -1,39 +1,5 @@
 module Unbelievable
-  class Haiku
-    DICTIONARY = {
-      singular: %w(you her him sea sky ice tea air orb sun zen dove seed bell rock
-      wave face cave leaf sand snow tree hand wind lake skin fire monk moon life
-      rain light heart apple petal puppy smile color river frost leave stone night
-      creek smoke sword blood grass world amber cloud pebble temple flower shadow
-      breeze scroll summer bamboo kitten candle spring canyon mirror meadow someone
-      whisper journey retreat evening whisper origami morning rainbow diamond
-      crescent nighfall sunshine wildness mountain waterfall butterfly moonlight
-      breadcrumb marionette wheelhouse),
-
-      plural: %w(ova ans lips eyes jars gems eggs orbs monks birds rocks seeds
-      wings ideas faces waves bells hands monks trees clouds petals stones leaves
-      apples pebbles dreams hearts petals wounds colors meadows mirrors candles
-      flowers whispers shadows breaths temples gardens diamonds blankets droplets
-      whispers birthdays mountains waterfalls scarecrows jellybeans),
-
-      adjective: %w(raw hot old wet big cold fine bare aged pure soft wild warm
-      tiny sharp clear white fresh quiet sweet crisp sleepy tender lovely joyful
-      smooth simple fallen pretty gentle bright silent perfect lonely crystal
-      unusual awesome amazing sacred fading restful handsome gracious peaceful
-      elegant secluded merciful nameless stunning painful soaring enormous
-      tranquil marvelous beautiful startling wonderful fantastic refreshing
-      delightful weightless surprising unexpected),
-
-      numeral: %w(two many some three four five six seven eight nine ten eleven
-      twelve sixteen hundreds thirteen thousands seventeen thirteenth eighteenth),
-
-      single: %w(Yes Yum Wow Aha Agh Yay Yeah Oops Peace Enjoy Really Awesome
-      Amazing Beautiful Wonderful Standstill),
-
-      conjunction: %w(yet with with near over along among above around besides
-      without whenever wherever although therefore underneath)
-    }
-
+  class Haiku < Generator
     TEMPLATES = [
       [ :single                                                                   ],
       [ :numeral,   :plural                                                       ],
@@ -102,7 +68,7 @@ module Unbelievable
           vars[-1] -= 1           # Make the last word shorter since we're appending "?".
         end
 
-        terms.concat(template.map { |var| DICTIONARY[var].pick(vars.shift) }).join(" ")
+        terms.concat(template.map { |var| dictionary[var.to_s].pick(vars.shift) }).join(" ")
       end.compact
 
       if sentences.any?

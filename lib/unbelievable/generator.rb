@@ -6,10 +6,13 @@ module Unbelievable
 
     def initialize(style = default_style)
       file_name = "#{File.dirname(__FILE__)}/dictionary/#{style}.json"
-      @@dictionary[style] = File.open(file_name) { |f| JSON.load(f) }
+      # puts "loading #{file_name} (#{style.inspect})"
+      @@dictionary[style] ||= File.open(file_name) { |f| JSON.load(f) }
     end
 
+    protected
     def dictionary(style = default_style)
+      # puts "@@dictionary: #{style} => #{@@dictionary[style].to_a.count}"
       @@dictionary[style]
     end
 

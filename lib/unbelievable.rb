@@ -31,30 +31,23 @@ at_exit do
   eval $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
 end
 
-# Like marvelous sun over
-# beautiful nameless sea? Marvelous
-# whisper with beautiful
-# bamboo. Hot crystal ans
-# 
-# Raw evening along soft warm
-# sun. Five soaring stunning
-# eyes. Gracious unusual eyes
-# 
-# Remember sixteen pure gracious
-# birthdays? Six crystal raw
-# lips. Wonderful wheelhouse over
-# peaceful refreshing snow
-# 
-# Wonderful crisp
-# lips. Tranquil retreat with
-# awesome unusual
-# him. Sixteen aged hot mirrors
-# 
-# Peace
+Like seventeen big cold
+blankets? Thirteen bare wonderful
+shadows. Tiny wonderful colors
 
-Nibh elementum est erat phasellus habitant quis dignissim egestas arcu
-tincidunt. Tempor mis feugiat vel sed viverra metus nibh eget vel diam
-primis! Pharetra odio pulvinar pretium nisi integer! Lacinia quis
-bibendum. Adipiscing dui varius? Sed eros fermentum vestibulum eget
-vehicula. Vestibulum eros imperdiet lacus diam sagittis quisque odio
-varius? Cubilia nec lacinia amet hac viverra purus
+See amazing ice yet perfect
+skin? Miss aged him over
+elegant nameless sea? Remember
+awesome wave whenever soaring
+ice?
+
+Tranquil marionette yet painful
+tea. Nine startling unexpected
+lips. Gracious surprising eggs
+
+Seventeen white wild
+whispers. Awesome warm
+pebbles. Cherish old someone
+over raw bamboo?
+
+Enjoy

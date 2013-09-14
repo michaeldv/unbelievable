@@ -85,13 +85,13 @@ class Buzzwords
 
     while words.any? do
       sentences += [ 5, 4 ].shuffle.map do |n|
-        found = sentence(words[0, n])
+        found = sentence(words[0, n]) if words.any?
         words.shift(found.split.size) if found
         found
-      end.compact
+      end
     end
 
-    sentences.each_with_index.map { |todo, i| "#{i+1}. #{todo}" }.join("\n")
+    sentences.compact.each_with_index.map { |todo, i| "#{i+1}. #{todo}" }.join("\n")
   end
 end
 

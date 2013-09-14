@@ -31,23 +31,16 @@ at_exit do
   eval $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
 end
 
-Like seventeen big cold
-blankets? Thirteen bare wonderful
-shadows. Tiny wonderful colors
-
-See amazing ice yet perfect
-skin? Miss aged him over
-elegant nameless sea? Remember
-awesome wave whenever soaring
-ice?
-
-Tranquil marionette yet painful
-tea. Nine startling unexpected
-lips. Gracious surprising eggs
-
-Seventeen white wild
-whispers. Awesome warm
-pebbles. Cherish old someone
-over raw bamboo?
-
-Enjoy
+1. omg! jumpstart big core
+2. Carefully reinvent many ergonomic actions
+3. nvm! architect twelve hot markets
+4. Log ten diverse slots
+5. Only book all bold metrics
+6. Urgently grow balanced synergy
+7. Book thousand virtual hubs
+8. Promptly prioritize six dynamic UIs
+9. ooh! benchmark thirteenth full channels
+10. Prioritize many polarised slots
+11. Only expedite backend GUIs
+12. Quietly enhance all backend labs
+13. yt? approve users

@@ -2,6 +2,7 @@ require "./core_ext/array"
 
 class Buzzwords
   DICTIONARY = {
+
     verb: %w(buy dig zap fix log use win rate book grow hack push sack swap fake
     sell check study gauge build create draft drive morph order scale deploy
     enable engage verify evolve extend manage design target retain deliver embrace
@@ -12,9 +13,9 @@ class Buzzwords
     streamline synthesize transition),
 
     plural: %w(ads UIs GUIs fabs hubs labs slots specs brands users models niches
-    stocks actions markets metrics portals schemas systems designs drivers
-    channels eyeballs! networks services pageviews! analytics paradigms platforms
-    customers solutions synergies appliances interfaces milestones),
+    stocks actions markets metrics portals systems designs drivers channels
+    eyeballs! networks services pageviews! analytics paradigms platforms customers
+    solutions synergies appliances interfaces milestones),
 
     singular: %w(GUI LTE XML fab hub lab HTML JSON LDAP SaaS beta blog core spec
     HTML5 brand focus frame group model access mashup engine matrix! policy portal
@@ -29,24 +30,24 @@ class Buzzwords
     management middleware monitoring moratorium projection throughput mindshare!
     console),
 
-    adjective: %w(raw hot full bold meme local solid smart viral global killer
-    static robust secure modern mobile backend foreign diverse dynamic focused
-    leading offshore organic virtual advanced balanced critical enhanced expanded
-    extended frontend granular european holistic holistic magnetic optional
-    profound reactive realtime scalable seamless shareable vertical wireless
-    automated budgetary digitized downsized countless efficient ergonomic
-    exclusive impactful intuitive mandatory networked optimized polarised
-    proactive strategic universal versatile visionary worldwide artificial
-    compatible compelling customized extensible horizontal innovative integrated
-    persistent standalone successful switchable synergized ubiquitous upgradable),
+    adjective: %w(big raw hot full bold meme local solid smart viral global killer
+    static robust secure modern mobile backend diverse dynamic focused leading
+    offshore organic virtual advanced balanced critical enhanced expanded extended
+    frontend granular european holistic holistic magnetic optional profound
+    reactive realtime scalable seamless shareable vertical wireless automated
+    budgetary digitized downsized efficient ergonomic exclusive impactful
+    intuitive mandatory networked optimized polarised proactive strategic
+    universal versatile visionary worldwide artificial compatible compelling
+    customized extensible horizontal innovative integrated persistent standalone
+    successful switchable synergized ubiquitous upgradable),
 
-    adverb: %w(oh! yt? plz OMG ASAP only nvm! ooh! more? done? ASAP! FAST! yeah!
-    damn! simply further please quickly quietly rapidly promptly urgently
-    carefully discreetly diligently),
+    adverb: %w(oh! yt? plz nvm OMG ASAP only nvm! ooh! omg! more? done? ASAP!
+    FAST! yeah! damn! simply further please quickly quietly rapidly promptly
+    urgently carefully discreetly diligently),
 
-    numeral: %w(our their many some several all any few two three four five six
-    seven eight nine ten eleven twelve hundred sixteen thousand thirteen seventeen
-    thousands thirteenth eighteenth)
+    numeral: %w(ten all few six four five many some three dozen twelve several
+    hundred sixteen thousand thirteen seventeen countless thousands thirteenth
+    eighteenth)
   }
 
   TEMPLATES = [
@@ -55,25 +56,25 @@ class Buzzwords
     [ :verb,   :singular                                   ],
     [ :adverb, :verb,      :plural                         ],
     [ :adverb, :verb,      :singular                       ],
-    [ :verb,   :numeral,   :plural                         ],
-    [ :verb,   :adjective, :plural                         ],
+  # [ :verb,   :numeral,   :plural                         ],
+  # [ :verb,   :adjective, :plural                         ],
     [ :verb,   :adjective, :singular                       ],
     [ :adverb, :verb,      :adjective, :plural             ],
     [ :adverb, :verb,      :adjective, :singular           ],
-    [ :adverb, :verb,      :numeral,   :plural             ],
+  # [ :adverb, :verb,      :numeral,   :plural             ],
     [ :verb,   :numeral,   :adjective, :plural             ],
     [ :adverb, :verb,      :numeral,   :adjective, :plural ]
   ]
 
-  def sentence(*words)
+  def sentence(words)
     # Pick templates with given number of words.
     templates = TEMPLATES.select { |template| template.size == words.size }
 
     sentences = templates.map do |template|
       vars = words.dup
-      formatted = template.map { |var| DICTIONARY[var].pick(vars.shift) }.join(" ")
-      formatted << ";" unless formatted.end_with?("!")
-      formatted
+      formatted = template.map { |var| DICTIONARY[var].pick(vars.shift) }
+      formatted.first.capitalize! unless formatted.first =~ /^[A-Z]|[\?!]$/
+      formatted.join(" ")
     end
 
     sentences.sample
@@ -84,13 +85,13 @@ class Buzzwords
 
     while words.any? do
       sentences += [ 5, 4 ].shuffle.map do |n|
-        found = sentence(*words[0, n]) if words.any?
+        found = sentence(words[0, n])
         words.shift(found.split.size) if found
         found
       end.compact
     end
 
-    sentences.join("\n")
+    sentences.each_with_index.map { |todo, i| "#{i+1}. #{todo}" }.join("\n")
   end
 end
 

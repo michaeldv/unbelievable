@@ -1,3 +1,10 @@
+$:.unshift("./")
+require "unbelievable/core_ext/array"
+require "unbelievable/generator"
+require "unbelievable/buzzwords"
+require "unbelievable/haiku"
+require "unbelievable/lorem"
+
 
 src = 'puts "Hello world!"'
 chars = src.unpack("C*")

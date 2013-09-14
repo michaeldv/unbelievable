@@ -1,0 +1,15 @@
+{
+
+"singular": ["air","her","him","ice","orb","sea","sky","sun","tea","you","zen","bell","cave","dove","face","fire","hand","lake","leaf","life","monk","moon","rain","rock","sand","seed","skin","snow","tree","wave","wind","amber","apple","blood","cloud","color","creek","frost","grass","heart","leave","light","night","petal","puppy","river","smile","smoke","stone","sword","world","bamboo","breeze","candle","canyon","flower","kitten","meadow","mirror","pebble","scroll","shadow","spring","summer","temple","diamond","evening","journey","morning","origami","rainbow","retreat","someone","whisper","whisper","crescent","mountain","nighfall","sunshine","wildness","butterfly","moonlight","waterfall","breadcrumb","marionette","wheelhouse"],
+
+"plural": ["ans","ova","eggs","eyes","gems","jars","lips","orbs","bells","birds","faces","hands","ideas","monks","monks","rocks","seeds","trees","waves","wings","apples","clouds","colors","dreams","hearts","leaves","petals","petals","stones","wounds","breaths","candles","flowers","gardens","meadows","mirrors","pebbles","shadows","temples","blankets","diamonds","droplets","whispers","whispers","birthdays","mountains","jellybeans","scarecrows","waterfalls"],
+
+"adjective": ["big","hot","old","raw","wet","aged","bare","cold","fine","pure","soft","tiny","warm","wild","clear","crisp","fresh","quiet","sharp","sweet","white","bright","fading","fallen","gentle","joyful","lonely","lovely","pretty","sacred","silent","simple","sleepy","smooth","tender","amazing","awesome","crystal","elegant","painful","perfect","restful","soaring","unusual","enormous","gracious","handsome","merciful","nameless","peaceful","secluded","stunning","tranquil","beautiful","fantastic","marvelous","startling","wonderful","delightful","refreshing","surprising","unexpected","weightless"],
+
+"numeral": ["six","ten","two","five","four","many","nine","some","eight","seven","three","eleven","twelve","sixteen","hundreds","thirteen","seventeen","thousands","eighteenth","thirteenth"],
+
+"single": ["Agh","Aha","Wow","Yay","Yes","Yum","Oops","Yeah","Enjoy","Peace","Really","Amazing","Awesome","Beautiful","Wonderful","Standstill"],
+
+"conjunction": ["yet","near","over","with","with","above","along","among","around","besides","without","although","whenever","wherever","therefore","underneath"]
+
+}

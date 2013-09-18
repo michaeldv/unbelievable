@@ -23,7 +23,7 @@ module Unbelievable
       sentences = select_sentences(words)
       each_haiku(sentences) do |haiku|
         reformat(haiku)
-      end
+      end.join("")
     end
 
     private
@@ -45,6 +45,7 @@ module Unbelievable
     def pick_question(words)
       return [] if words.size < 5 || words[-1] < 4
 
+      puts words.inspect
       list = words.join
       Array(QUESTIONS.select { |question| list.start_with?(question.map(&:size).join) }.sample)
     end
@@ -94,5 +95,5 @@ module Unbelievable
   end
 end
 
-puts "-HAIKU-" * 10
-puts Unbelievable::Haiku.new.paragraph(4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5)
+# puts "-HAIKU-" * 10
+# puts Unbelievable::Haiku.new.paragraph(4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5)

@@ -45,7 +45,6 @@ module Unbelievable
     def pick_question(words)
       return [] if words.size < 5 || words[-1] < 4
 
-      puts words.inspect
       list = words.join
       Array(QUESTIONS.select { |question| list.start_with?(question.map(&:size).join) }.sample)
     end

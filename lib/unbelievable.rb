@@ -1,6 +1,7 @@
 require "unbelievable/core_ext/array"
 require "unbelievable/generator"
 require "unbelievable/buzzwords"
+require "unbelievable/foia"
 require "unbelievable/haiku"
 require "unbelievable/lorem"
 
@@ -13,8 +14,8 @@ module Unbelievable
   def generate(code, style = nil)
     with_method_missing do
       style ||= @style || :lorem
-      unless [ :buzzwords, :haiku, :lorem ].include?(style)
-        raise ArgumentError, "style must be :buzzwords, :haiku, or :lorem but not #{style.inspect}"
+      unless [ :buzzwords, :foia, :haiku, :lorem ].include?(style)
+        raise ArgumentError, "style must be :buzzwords, :foia, :haiku, or :lorem but not #{style.inspect}"
       else
         chars = code.unpack("C*")
         encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }

@@ -3,7 +3,7 @@ $:.unshift lib_path, "#{lib_path}/unbelievable"
 
 require "unbelievable"
 
-[ :buzzwords, :haiku, :lorem ].each do |style|
+[ :buzzwords, :foia, :haiku, :lorem ].each do |style|
   Unbelievable.style = style
   prose = Unbelievable.generate(%Q/puts "Hello world! (#{style})";/)
   puts "--#{style.upcase}--"*10

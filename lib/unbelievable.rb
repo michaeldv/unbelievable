@@ -4,50 +4,46 @@ require "unbelievable/buzzwords"
 require "unbelievable/haiku"
 require "unbelievable/lorem"
 
-$code, $missing = [], []
-$generator = false
+$unbelievable = { code: [], missing: [], passthrough: false }
+
 module Unbelievable
   extend self
   attr_accessor :style
 
   def generate(code, style = nil)
-    $generator = true
-    style ||= @style || :lorem
-    unless [ :buzzwords, :lorem, :haiku ].include?(style)
-      raise ArgumentError, "style must be :buzzwords, :lorem, or :haiku"
-    else
-      chars = code.unpack("C*")
-      encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }
-      generator = Object.const_get("#{self}::#{style.capitalize}")
-      puts "generator: #{generator}"
-      puts "generator: #{generator.class}"
-      generator.new.paragraph(*encoded)
+    with_method_missing do
+      style ||= @style || :lorem
+      unless [ :buzzwords, :haiku, :lorem ].include?(style)
+        raise ArgumentError, "style must be :buzzwords, :haiku, or :lorem but not #{style.inspect}"
+      else
+        chars = code.unpack("C*")
+        encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }
+        generator = Object.const_get("#{self}::#{style.capitalize}")
+        generator.new.paragraph(*encoded)
+      end
     end
+  end
+
+  private
+
+  def with_method_missing(&blk)
+    $unbelievable[:passthrough] = true
+    yield
   ensure
-    $generator = false
+    $unbelievable[:passthrough] = false
   end
 end
 
-
-# src = 'puts "Hello world!"'
-# chars = src.unpack("C*")
-# puts chars.inspect
-# puts sprintf("%03o" * chars.size, *chars)
-# sizes = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }
-# puts sizes.inspect
-# puts Unbelievable::Buzzwords.new.paragraph(*sizes)
-# [4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5]
-
 def method_missing(name, *args)
   # puts "MISSING: #{self.class.inspect} => #{self.inspect}"
-  # puts "MISSING: #{name}: #{args}, #{$missing.inspect}"
-  return super if $generator
+  # puts "MISSING: #{name}: #{args}, #{$unbelievable[:missing].inspect}"
+  return super if $unbelievable[:passthrough]
 
-  if args.empty? && $missing.any?
-    $code.concat($missing.reverse)
-    $missing.clear
+  if args.empty? && $unbelievable[:missing].any?
+    $unbelievable[:code].concat($unbelievable[:missing].reverse)
+    $unbelievable[:missing].clear
   end
-  $missing << (name.to_s.size - 1).to_s
+  $unbelievable[:missing] << (name.to_s.size - 1).to_s
 end
 
 def Object.const_missing(name)
@@ -55,11 +51,11 @@ def Object.const_missing(name)
 end
 
 at_exit do
-  $code.concat($missing.reverse)
-  # puts $missing.reverse
-  # puts "code: " + $code.inspect
-  # puts "scan: " + $code.join.scan(/.../).inspect
-  # puts "pack: " + $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*") }.inspect
-  # puts "i(8): " + $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8) }.inspect
-  eval $code.join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
+  $unbelievable[:code].concat($unbelievable[:missing].reverse)
+  # puts $unbelievable[:missing].reverse
+  # puts "code: " + $unbelievable[:code].inspect
+  # puts "scan: " + $unbelievable[:code].join.scan(/.../).inspect
+  # puts "pack: " + $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*") }.inspect
+  # puts "i(8): " + $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8) }.inspect
+  eval $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
 end

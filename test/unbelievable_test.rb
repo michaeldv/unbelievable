@@ -6,7 +6,7 @@ require "unbelievable"
 [ :buzzwords, :foia, :haiku, :lorem ].each do |style|
   Unbelievable.style = style
   prose = Unbelievable.generate(%Q/puts "Hello world! (#{style})";/)
-  puts "--#{style.upcase}--"*10
+  puts "#{'='*30} UNBELIEVABLE #{style.upcase} #{'='*30}"
   puts prose
   eval prose
   puts

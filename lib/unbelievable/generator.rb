@@ -1,3 +1,8 @@
+# Copyright (c) 2013 Michael Dvorkin
+#
+# Unbelievable is freely distributable under the terms of MIT license.
+# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
+
 require "json"
 
 module Unbelievable
@@ -6,13 +11,11 @@ module Unbelievable
 
     def initialize(style = default_style)
       file_name = "#{File.dirname(__FILE__)}/dictionary/#{style}.json"
-      # puts "loading #{file_name} (#{style.inspect})"
       @@dictionary[style] ||= File.open(file_name) { |f| JSON.load(f) }
     end
 
     protected
     def dictionary(style = default_style)
-      # puts "@@dictionary: #{style} => #{@@dictionary[style].to_a.count}"
       @@dictionary[style]
     end
 

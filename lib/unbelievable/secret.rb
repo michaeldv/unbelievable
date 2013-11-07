@@ -1,4 +1,7 @@
-# U.S. Govenment Freedom of Information Act (FOIA).
+# Copyright (c) 2013 Michael Dvorkin
+#
+# Unbelievable is freely distributable under the terms of MIT license.
+# See LICENSE file or http://www.opensource.org/licenses/mit-license.php
 
 module Unbelievable
   class Secret < Generator
@@ -26,6 +29,3 @@ module Unbelievable
     end
   end
 end
-
-# puts "-FOIA-" * 10
-# puts Unbelievable::Foia.new.paragraph(4, 9, 3, 4, 9, 8, 4, 9, 7, 4, 9, 6, 3, 7, 3, 3, 7, 5, 4, 4, 3, 4, 7, 8, 4, 8, 7, 4, 8, 7, 4, 8, 10, 3, 7, 3, 4, 9, 10, 4, 8, 10, 4, 9, 5, 4, 8, 7, 4, 7, 7, 3, 7, 4, 3, 7, 5)

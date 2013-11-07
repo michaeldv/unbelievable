@@ -1,4 +1,4 @@
-$unbelievable = { code: [], missing: [], passthrough: false }
+$unbelievable = { code: [], missing: [], passthrough: false, debug: false }
 
 module Unbelievable
   extend self
@@ -29,8 +29,11 @@ module Unbelievable
 end
 
 def method_missing(name, *args)
-  # puts "MISSING: #{self.class.inspect} => #{self.inspect}"
-  # puts "MISSING: #{name}: #{args}, #{$unbelievable[:missing].inspect}"
+  if $unbelievable[:debug]
+    puts "method_missing: #{self.class.inspect} => #{self.inspect}"
+    puts "method_missing: #{name}: #{args}, #{$unbelievable[:missing].inspect}"
+  end
+
   return super if $unbelievable[:passthrough]
 
   if args.empty? && $unbelievable[:missing].any?
@@ -45,11 +48,14 @@ def Object.const_missing(name)
 end
 
 at_exit do
+  if $unbelievable[:debug]
+    puts "miss: " << $unbelievable[:missing].reverse.inspect
+    puts "code: " << $unbelievable[:code].inspect
+    puts "scan: " << $unbelievable[:code].join.scan(/.../).inspect
+    puts "pack: " << $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*") }.inspect
+    puts "i(8): " << $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8) }.inspect
+  end
+
   $unbelievable[:code].concat($unbelievable[:missing].reverse)
-  # puts $unbelievable[:missing].reverse
-  # puts "code: " + $unbelievable[:code].inspect
-  # puts "scan: " + $unbelievable[:code].join.scan(/.../).inspect
-  # puts "pack: " + $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*") }.inspect
-  # puts "i(8): " + $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8) }.inspect
   eval $unbelievable[:code].join.scan(/.../).map { |o| o.bytes.map { |n| n - 2 }.pack("C*").to_i(8).chr }.join
 end

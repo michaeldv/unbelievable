@@ -10,7 +10,7 @@ code = <<-EOS
   puts (1..10).map { |i| fib(i) }.inspect;
 EOS
 
-stories = [ :buzzwords, :foia, :haiku, :lorem ].map do |style|
+stories = [ :todo, :secret, :lorem , :haiku].map do |style|
   Unbelievable.style = style
   story = Unbelievable.generate(code)
   puts " UNBELIEVABLE #{style.upcase} ".center(72, "=") << "\n#{story}\n\n"

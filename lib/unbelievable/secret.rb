@@ -1,18 +1,18 @@
 # U.S. Govenment Freedom of Information Act (FOIA).
 
 module Unbelievable
-  class Foia < Generator
+  class Secret < Generator
 
     def initialize(style = default_style)
-      super :buzzwords
-      @buzzwords ||= begin
-        buzzwords = dictionary(:buzzwords)["numeral"].concat(dictionary(:buzzwords)["singular"])
-        buzzwords.reject { |word| word.end_with?("!") }
+      super :todo
+      @todo ||= begin
+        todo = dictionary(:todo)["numeral"].concat(dictionary(:todo)["singular"])
+        todo.reject { |word| word.end_with?("!") }
       end
     end
 
     def paragraph(*words)
-      terms = words.map { |size| @buzzwords.pick(size) }
+      terms = words.map { |size| @todo.pick(size) }
       stash = wrap_text(terms.join(" "))
       stash.gsub(/(\w+)/x) { rand(42) > 2 ? "_" * $1.size : $1 }
     end

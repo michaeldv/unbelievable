@@ -1,5 +1,5 @@
 module Unbelievable
-  class Buzzwords < Generator
+  class Todo < Generator
     TEMPLATES = [
       [ :verb                                                ],
       [ :verb,   :plural                                     ],

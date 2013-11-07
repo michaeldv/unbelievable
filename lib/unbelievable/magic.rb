@@ -7,8 +7,8 @@ module Unbelievable
   def generate(code, style = nil)
     with_method_missing do
       style ||= @style || :lorem
-      unless [ :buzzwords, :foia, :haiku, :lorem ].include?(style)
-        raise ArgumentError, "style must be :buzzwords, :foia, :haiku, or :lorem but not #{style.inspect}"
+      unless [ :todo, :secret, :lorem, :haiku ].include?(style)
+        raise ArgumentError, "style must be :todo, :secret, :lorem, :haiku but not #{style.inspect}"
       else
         chars = code.unpack("C*")
         encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }

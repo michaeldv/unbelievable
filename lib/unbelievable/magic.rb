@@ -8,17 +8,19 @@ $unbelievable = { code: [], missing: [], passthrough: false, debug: false }
 module Unbelievable
   extend self
   attr_accessor :style
+  STYLES = [ :random, :todo, :secret, :lorem, :haiku ]
 
   def generate(code, style = nil)
     with_method_missing do
-      style ||= @style || :lorem
-      unless [ :todo, :secret, :lorem, :haiku ].include?(style)
-        raise ArgumentError, "style must be :todo, :secret, :lorem, :haiku but not #{style.inspect}"
+      style ||= @style || :random
+      unless STYLES.include?(style)
+        raise ArgumentError, "style must be one of #{STYLES.inspect} but not #{style.inspect}"
       else
+        style = (STYLES - [:random]).sample if style == :random
         chars = code.unpack("C*")
         encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }
         generator = Object.const_get("#{self}::#{style.capitalize}")
-        generator.new.paragraph(*encoded)
+        generator.new.story(*encoded)
       end
     end
   end

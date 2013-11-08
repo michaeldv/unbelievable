@@ -14,7 +14,7 @@ module Unbelievable
       end
     end
 
-    def paragraph(*words)
+    def story(*words)
       terms = words.map { |size| @todo.pick(size) }
       stash = wrap_text(terms.join(" "))
       stash.gsub(/(\w+)/x) { rand(42) > 2 ? "_" * $1.size : $1 }

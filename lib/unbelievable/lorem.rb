@@ -6,7 +6,7 @@
 module Unbelievable
   class Lorem < Generator
 
-    def paragraph(*words)
+    def story(*words)
       terms = words.map { |size| dictionary.pick(size) }
       wrap_text terms.join(" ").capitalize
     end

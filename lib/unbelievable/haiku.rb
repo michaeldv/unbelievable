@@ -24,7 +24,7 @@ module Unbelievable
     %w(Forgot about), %w(Dream about), %w(Remember), %w(Cherish), %w(Recall),
     %w(Enjoy), %w(Adore), %w(Like), %w(Love), %w(Miss), %w(See), ]
 
-    def story(*words)
+    def story(words)
       sentences = select_sentences(words)
       each_haiku(sentences) do |haiku|
         reformat(haiku)

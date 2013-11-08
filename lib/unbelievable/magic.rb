@@ -20,7 +20,7 @@ module Unbelievable
         chars = code.unpack("C*")
         encoded = sprintf("%03o" * chars.size, *chars).unpack("C*").map{ |n| n - 45 }
         generator = Object.const_get("#{self}::#{style.capitalize}")
-        generator.new.story(*encoded)
+        generator.new.story(encoded)
       end
     end
   end

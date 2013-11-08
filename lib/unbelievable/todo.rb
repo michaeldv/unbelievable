@@ -21,7 +21,7 @@ module Unbelievable
       [ :adverb, :verb,      :numeral,   :adjective, :plural ]
     ]
 
-    def story(*words)
+    def story(words)
       sentences = []
 
       while words.any? do

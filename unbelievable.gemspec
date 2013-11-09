@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.summary       = ""
   s.description   = ""
 
-  s.files         = Dir["[A-Z]*[^~]"] + Dir["lib/**/*.rb"] + [".gitignore"]
+  s.files         = Dir["[A-Z]*[^~]"] + Dir["lib/**/*.rb"] + Dir["lib/**/*.json"] + [".gitignore"]
   s.test_files    = Dir["test/*"]
   s.executables   = []
   s.require_paths = ["lib"]
